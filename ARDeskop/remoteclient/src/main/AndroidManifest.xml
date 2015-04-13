@@ -1,0 +1,37 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="android.androidVNC">
+
+    <application android:icon="@drawable/icon" android:label="androidVNC">
+        <activity android:label="@string/app_name" android:name="androidVNC">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"></action>
+                <category android:name="android.intent.category.LAUNCHER"></category>
+            </intent-filter>
+        </activity>
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="nosensor"
+            android:windowSoftInputMode="stateVisible|adjustResize|adjustPan"
+            android:name="VncCanvasActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"></action>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="vnc" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ConnectionListActivity" android:label="@string/shortcut_label">
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <uses-sdk android:minSdkVersion="13" android:targetSdkVersion="14"></uses-sdk>
+    <supports-screens android:anyDensity="true" />
+
+</manifest>

@@ -1,4 +1,4 @@
-package org.jalasoft.ardeskop;
+package org.poc.vnc;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

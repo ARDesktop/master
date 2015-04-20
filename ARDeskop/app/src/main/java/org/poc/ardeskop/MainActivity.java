@@ -1,4 +1,4 @@
-package org.jalasoft.ardeskop;
+package org.poc.ardeskop;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;

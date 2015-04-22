@@ -11,6 +11,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.widget.ImageView;
 
+import org.poc.vnc.VncCanvas;
+
 /**
  * Abstract interface between the VncCanvas and the bitmap and pixel data buffers that actually contain
  * the data.
@@ -18,14 +20,14 @@ import android.widget.ImageView;
  * @author Michael A. MacDonald
  *
  */
-abstract class AbstractBitmapData {
+public abstract class AbstractBitmapData {
 	int framebufferwidth;
 	int framebufferheight;
 	int bitmapwidth;
 	int bitmapheight;
 	RfbProto rfb;
 	Bitmap mbitmap;
-	int bitmapPixels[];
+	public int bitmapPixels[];
 	Canvas memGraphics;
 	boolean waitingForInput;
 	VncCanvas vncCanvas;
@@ -39,20 +41,20 @@ abstract class AbstractBitmapData {
 		framebufferheight=rfb.framebufferHeight;
 	}
 	
-	synchronized void doneWaiting()
+	public synchronized void doneWaiting()
 	{
 		waitingForInput=false;
 	}
 	
 	final void invalidateMousePosition()
 	{
-		if (vncCanvas.connection.getUseLocalCursor())
+		/*if (vncCanvas.connection.getUseLocalCursor())
 		{
 			if (drawable==null)
 				drawable = createDrawable();
 			drawable.setCursorRect(vncCanvas.mouseX,vncCanvas.mouseY);
 			vncCanvas.invalidate(drawable.cursorRect);
-		}
+		}*/
 	}
 	
 	/**
@@ -77,7 +79,7 @@ abstract class AbstractBitmapData {
 	 * Send a request through the protocol to get the data for the currently held bitmap
 	 * @param incremental True if we want incremental update; false for full update
 	 */
-	abstract void writeFullUpdateRequest( boolean incremental) throws IOException;
+	public abstract void writeFullUpdateRequest( boolean incremental) throws IOException;
 	
 	/**
 	 * Determine if a rectangle in full-frame coordinates can be drawn in the existing buffer
@@ -87,7 +89,7 @@ abstract class AbstractBitmapData {
 	 * @param h height (pixels)
 	 * @return True if entire rectangle fits into current screen buffer, false otherwise
 	 */
-	abstract boolean validDraw( int x, int y, int w, int h);
+	public abstract boolean validDraw( int x, int y, int w, int h);
 	
 	/**
 	 * Return an offset in the bitmapPixels array of a point in full-frame coordinates
@@ -95,7 +97,7 @@ abstract class AbstractBitmapData {
 	 * @param y
 	 * @return Offset in bitmapPixels array of color data for that point
 	 */
-	abstract int offset( int x, int y);
+	public abstract int offset( int x, int y);
 	
 	/**
 	 * Update pixels in the bitmap with data from the bitmapPixels array, positioned
@@ -105,7 +107,7 @@ abstract class AbstractBitmapData {
 	 * @param w width (pixels)
 	 * @param h height (pixels)
 	 */
-	abstract void updateBitmap( int x, int y, int w, int h);
+	public abstract void updateBitmap( int x, int y, int w, int h);
 	
 	/**
 	 * Create drawable appropriate for this data
@@ -117,7 +119,7 @@ abstract class AbstractBitmapData {
 	 * Call in UI thread; tell ImageView we've changed
 	 * @param v ImageView displaying bitmap data
 	 */
-	void updateView(ImageView v)
+	public void updateView(ImageView v)
 	{
 		if (drawable==null)
 			drawable = createDrawable();
@@ -131,7 +133,7 @@ abstract class AbstractBitmapData {
 	 * @param dest Destination rectangle in full-frame coordinates
 	 * @param paint Paint specifier
 	 */
-	abstract void copyRect( Rect src, Rect dest, Paint paint);
+	public abstract void copyRect( Rect src, Rect dest, Paint paint);
 	
 	/**
 	 * Draw a rectangle in the bitmap with coordinates given in full frame
@@ -141,7 +143,7 @@ abstract class AbstractBitmapData {
 	 * @param h height (pixels)
 	 * @param paint How to draw
 	 */
-	abstract void drawRect( int x, int y, int w, int h, Paint paint);
+	public abstract void drawRect( int x, int y, int w, int h, Paint paint);
 	
 	/**
 	 * Scroll position has changed.
@@ -156,7 +158,7 @@ abstract class AbstractBitmapData {
 	/**
 	 * Sync scroll -- called from network thread; copies scroll changes from UI to network state
 	 */
-	abstract void syncScroll();
+	public abstract void syncScroll();
 
 	/**
 	 * Release resources

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.jalasoft.ardeskop.R;
+
 
 public class MainActivity extends ActionBarActivity {
 

@@ -5,12 +5,14 @@ package org.poc.vnc.domain;
 
 import android.widget.ImageView;
 
+import org.poc.vnc.R;
+
 /**
  * @author Michael A. MacDonald
  * 
  * A scaling mode for the VncCanvas; based on ImageView.ScaleType
  */
-abstract class AbstractScaling {
+public abstract class AbstractScaling {
 	private static final int scaleModeIds[] = { R.id.itemFitToScreen, R.id.itemOneToOne, R.id.itemZoomable };
 	
 	private static AbstractScaling[] scalings;
@@ -44,10 +46,10 @@ abstract class AbstractScaling {
 		throw new IllegalArgumentException("Unknown scaling id " + id);
 	}
 	
-	float getScale() { return 1; }
+	public float getScale() { return 1; }
 	
-	void zoomIn(VncCanvasActivity activity) {}
-	void zoomOut(VncCanvasActivity activity) {}
+	///void zoomIn(VncCanvasActivity activity) {}
+	//void zoomOut(VncCanvasActivity activity) {}
 	
 	static AbstractScaling getByScaleType(ImageView.ScaleType scaleType)
 	{
@@ -82,7 +84,7 @@ abstract class AbstractScaling {
 	 * Sets the activity's scale type to the scaling
 	 * @param activity
 	 */
-	void setScaleTypeForActivity(VncCanvasActivity activity)
+	/*void setScaleTypeForActivity(VncCanvasActivity activity)
 	{
 		activity.zoomer.hide();
 		activity.vncCanvas.scaling = this;
@@ -94,7 +96,7 @@ abstract class AbstractScaling {
 		}
 		activity.getConnection().Gen_update(activity.database.getWritableDatabase());
 		activity.updateInputMenu();
-	}
+	}*/
 	
 	abstract int getDefaultHandlerId();
 	
@@ -118,8 +120,8 @@ abstract class AbstractScaling {
 	 * @param fx Focus X of center of scale change
 	 * @param fy Focus Y of center of scale change
 	 */
-	void adjust(VncCanvasActivity activity, float scaleFactor, float fx, float fy)
+	/*void adjust(VncCanvasActivity activity, float scaleFactor, float fx, float fy)
 	{
 	
-	}
+	}*/
 }

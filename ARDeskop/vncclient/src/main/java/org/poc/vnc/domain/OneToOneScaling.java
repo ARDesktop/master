@@ -5,6 +5,8 @@ package org.poc.vnc.domain;
 
 import android.widget.ImageView.ScaleType;
 
+import org.poc.vnc.R;
+
 /**
  * @author Michael A. MacDonald
  */
@@ -45,11 +47,11 @@ class OneToOneScaling extends AbstractScaling {
 	/* (non-Javadoc)
 	 * @see android.androidVNC.AbstractScaling#setScaleTypeForActivity(android.androidVNC.VncCanvasActivity)
 	 */
-	@Override
-	void setScaleTypeForActivity(VncCanvasActivity activity) {
+	//@Override
+	/*void setScaleTypeForActivity(VncCanvasActivity activity) {
 		super.setScaleTypeForActivity(activity);
 		activity.vncCanvas.scrollToAbsolute();
 		activity.vncCanvas.pan(0,0);
-	}
+	}*/
 
 }

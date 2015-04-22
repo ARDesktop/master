@@ -27,12 +27,10 @@
 package org.poc.vnc.domain;
 
 import java.io.*;
-//- import java.awt.*;
-//- import java.awt.event.*;
 import java.net.Socket;
-//- import java.util.zip.*;
 import android.util.Log;
-import android.androidVNC.DH;
+
+import org.poc.vnc.VncCanvas;
 
 /**
  * Access the RFB protocol through a socket.
@@ -41,7 +39,7 @@ import android.androidVNC.DH;
  * and input events as defined in the RFB protocol.
  * 
  */
-class RfbProto {
+public class RfbProto {
 
 	final static String TAG = "RfbProto";
 	
@@ -57,7 +55,7 @@ class RfbProto {
     TightVncVendor  = "TGHT";
 
   // Security types
-  final static int
+  public final static int
     SecTypeInvalid = 0,
     SecTypeNone    = 1,
     SecTypeVncAuth = 2,
@@ -71,12 +69,12 @@ class RfbProto {
     SigNoTunneling = "NOTUNNEL";
 
   // Supported authentication types
-  final static int
+  public final static int
     AuthNone      = 1,
     AuthVNC       = 2,
     AuthUnixLogin = 129,
     AuthUltra	  = 17;
-  final static String
+  public final static String
     SigAuthNone      = "NOAUTH__",
     SigAuthVNC       = "VNCAUTH_",
     SigAuthUnixLogin = "ULGNAUTH";
@@ -88,7 +86,7 @@ class RfbProto {
     VncAuthTooMany = 2;
 
   // Server-to-client messages
-  final static int
+  public final static int
     FramebufferUpdate   = 0,
     SetColourMapEntries = 1,
     Bell                = 2,
@@ -106,7 +104,7 @@ class RfbProto {
     ClientCutText            = 6;
 
   // Supported encodings and pseudo-encodings
-  final static int
+  public final static int
     EncodingRaw            = 0,
     EncodingCopyRect       = 1,
     EncodingRRE            = 2,
@@ -142,7 +140,7 @@ class RfbProto {
   final static int MaxNormalEncoding = 255;
 
   // Contstants used in the Hextile decoder
-  final static int
+  public final static int
     HextileRaw                 = 1,
     HextileBackgroundSpecified = 2,
     HextileForegroundSpecified = 4,
@@ -169,14 +167,14 @@ class RfbProto {
   String host;
   int port;
   Socket sock;
-  DataInputStream is;
+  public DataInputStream is;
   OutputStream os;
   
   DH dh;
   long dh_resp;
   
   //- SessionRecorder rec;
-  boolean inNormalProtocol = false;
+  public boolean inNormalProtocol = false;
   //- VncViewer viewer;
 
   // Java on UNIX does not call keyPressed() on some keys, for example
@@ -213,8 +211,8 @@ class RfbProto {
   long timedKbits;
 
   // Protocol version and TightVNC-specific protocol options.
-  int serverMajor, serverMinor;
-  int clientMajor, clientMinor;
+  public int serverMajor, serverMinor;
+  public int clientMajor, clientMinor;
   boolean protocolTightVNC;
   CapsContainer tunnelCaps, authCaps;
   CapsContainer serverMsgCaps, clientMsgCaps;
@@ -229,7 +227,7 @@ class RfbProto {
 
   
   //-RfbProto(String h, int p, VncViewer v) throws IOException {
-  RfbProto(String h, int p) throws IOException{
+  public RfbProto(String h, int p) throws IOException{
   	//- viewer = v;
     host = h;
     port = p;
@@ -263,7 +261,7 @@ class RfbProto {
   }
  
 
-  synchronized void close() {
+  public synchronized void close() {
     try {
       sock.close();
       closed = true;
@@ -288,7 +286,7 @@ class RfbProto {
   // Read server's protocol version message
   //
 
-  void readVersionMsg() throws Exception {
+  public void readVersionMsg() throws Exception {
 
     byte[] b = new byte[12];
 
@@ -318,7 +316,7 @@ class RfbProto {
   // Write our protocol version message
   //
 
-  synchronized void writeVersionMsg() throws IOException {
+  public synchronized void writeVersionMsg() throws IOException {
     clientMajor = 3;
     if (serverMajor > 3 || serverMinor >= 8) {
       clientMinor = 8;
@@ -338,7 +336,7 @@ class RfbProto {
   // Negotiate the authentication scheme.
   //
 
-  int negotiateSecurity(int bitPref) throws Exception {
+  public int negotiateSecurity(int bitPref) throws Exception {
     return (clientMinor >= 7) ?
       selectSecurityType(bitPref) : readSecurityType(bitPref);
   }
@@ -412,7 +410,7 @@ class RfbProto {
   // Perform "no authentication".
   //
 
-  void authenticateNone() throws Exception {
+  public void authenticateNone() throws Exception {
     if (clientMinor >= 8)
       readSecurityResult("No authentication");
   }
@@ -421,7 +419,7 @@ class RfbProto {
   // Perform standard VNC Authentication.
   //
 
-  void authenticateVNC(String pw) throws Exception {
+  public void authenticateVNC(String pw) throws Exception {
     byte[] challenge = new byte[16];
     readFully(challenge);
 
@@ -483,7 +481,7 @@ class RfbProto {
     throw new Exception(reasonString);
   }
 
-  void prepareDH() throws Exception
+  public void prepareDH() throws Exception
   {
 	long gen = is.readLong();
 	long mod = is.readLong();
@@ -495,7 +493,7 @@ class RfbProto {
 	os.write(DH.longToBytes(pub));
   }
   
-  void authenticateDH(String us,String pw) throws Exception
+  public void authenticateDH(String us,String pw) throws Exception
   {
 	long key = dh.createEncryptionKey(dh_resp);
 	
@@ -533,7 +531,7 @@ class RfbProto {
   // Initialize capability lists (TightVNC protocol extensions).
   //
 
-  void initCapabilities() {
+  public void initCapabilities() {
     tunnelCaps    = new CapsContainer();
     authCaps      = new CapsContainer();
     serverMsgCaps = new CapsContainer();
@@ -583,7 +581,7 @@ class RfbProto {
   // Setup tunneling (TightVNC protocol extensions)
   //
 
-  void setupTunneling() throws IOException {
+  public void setupTunneling() throws IOException {
     int nTunnelTypes = is.readInt();
     if (nTunnelTypes != 0) {
       readCapabilityList(tunnelCaps, nTunnelTypes);
@@ -597,7 +595,7 @@ class RfbProto {
   // Negotiate authentication scheme (TightVNC protocol extensions)
   //
 
-  int negotiateAuthenticationTight() throws Exception {
+  public int negotiateAuthenticationTight() throws Exception {
     int nAuthTypes = is.readInt();
     if (nAuthTypes == 0)
       return AuthNone;
@@ -646,7 +644,7 @@ class RfbProto {
   // Write the client initialisation message
   //
 
-  void writeClientInit() throws IOException {
+  public void writeClientInit() throws IOException {
     /*- if (viewer.options.shareDesktop) {
       os.write(1);
     } else {
@@ -662,13 +660,13 @@ class RfbProto {
   // Read the server initialisation message
   //
 
-  String desktopName;
-  int framebufferWidth, framebufferHeight;
+  public String desktopName;
+  public int framebufferWidth, framebufferHeight;
   int bitsPerPixel, depth;
   boolean bigEndian, trueColour;
   int redMax, greenMax, blueMax, redShift, greenShift, blueShift;
 
-  void readServerInit() throws IOException {
+  public void readServerInit() throws IOException {
     framebufferWidth = is.readUnsignedShort();
     framebufferHeight = is.readUnsignedShort();
     bitsPerPixel = is.readUnsignedByte();
@@ -752,7 +750,7 @@ class RfbProto {
   // Set new framebuffer size
   //
 
-  void setFramebufferSize(int width, int height) {
+  public void setFramebufferSize(int width, int height) {
     framebufferWidth = width;
     framebufferHeight = height;
   }
@@ -762,7 +760,7 @@ class RfbProto {
   // Read the server message type
   //
 
-  int readServerMessageType() throws IOException {
+  public int readServerMessageType() throws IOException {
     int msgType = is.readUnsignedByte();
 
     // If the session is being recorded:
@@ -784,9 +782,9 @@ class RfbProto {
   // Read a FramebufferUpdate message
   //
 
-  int updateNRects;
+  public int updateNRects;
 
-  void readFramebufferUpdate() throws IOException {
+  public void readFramebufferUpdate() throws IOException {
     is.readByte();
     updateNRects = is.readUnsignedShort();
 
@@ -804,9 +802,9 @@ class RfbProto {
 
   // Read a FramebufferUpdate rectangle header
 
-  int updateRectX, updateRectY, updateRectW, updateRectH, updateRectEncoding;
+  public int updateRectX, updateRectY, updateRectW, updateRectH, updateRectEncoding;
 
-  void readFramebufferUpdateRectHdr() throws Exception {
+  public void readFramebufferUpdateRectHdr() throws Exception {
     updateRectX = is.readUnsignedShort();
     updateRectY = is.readUnsignedShort();
     updateRectW = is.readUnsignedShort();
@@ -861,9 +859,9 @@ class RfbProto {
 
   // Read CopyRect source X and Y.
 
-  int copyRectSrcX, copyRectSrcY;
+  public int copyRectSrcX, copyRectSrcY;
 
-  void readCopyRect() throws IOException {
+  public void readCopyRect() throws IOException {
     copyRectSrcX = is.readUnsignedShort();
     copyRectSrcY = is.readUnsignedShort();
 
@@ -881,7 +879,7 @@ class RfbProto {
   // Read a ServerCutText message
   //
 
-  String readServerCutText() throws IOException {
+  public String readServerCutText() throws IOException {
     byte[] pad = new byte[3];
     readFully(pad);
     int len = is.readInt();
@@ -1012,7 +1010,7 @@ class RfbProto {
   // Write a SetEncodings message
   //
 
-  synchronized void writeSetEncodings(int[] encs, int len) throws IOException {
+  public synchronized void writeSetEncodings(int[] encs, int len) throws IOException {
     byte[] b = new byte[4 + 4 * len];
 
     b[0] = (byte) SetEncodings;
@@ -1258,7 +1256,7 @@ class RfbProto {
 		writeInt(CHAT_FINISHED); // int message length
 	}
 
-	String readTextChatMsg() throws Exception {
+	public String readTextChatMsg() throws Exception {
 		byte[] pad = new byte[3];
 		readFully(pad);
 		int len = is.readInt();

@@ -1,7 +1,5 @@
 package org.poc.ar;
 
-import static at.maui.cardar.ui.ar.GLUtils.checkGLError;
-
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
@@ -9,10 +7,11 @@ import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
-import com.google.vrtoolkit.cardboard.CardboardView;
 import com.google.vrtoolkit.cardboard.EyeTransform;
 import com.google.vrtoolkit.cardboard.HeadTransform;
 import com.google.vrtoolkit.cardboard.Viewport;
+
+import org.jalasoft.ardeskop.R;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -21,13 +20,12 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 
-import at.maui.cardar.R;
 import timber.log.Timber;
 
 /**
  * Created by maui on 02.07.2014.
  */
-public class Renderer implements CardboardView.StereoRenderer {
+public class Renderer extends ViewRenderer {
 
     // We keep the light always position just above the user.
     private final float[] mLightPosInWorldSpace = new float[] {0.0f, 2.0f, 0.0f, 1.0f};
@@ -137,7 +135,7 @@ public class Renderer implements CardboardView.StereoRenderer {
 
         mRealCameraTexture.updateTexImage();
 
-        checkGLError("onReadyToDraw");
+        GLUtils.checkGLError("onReadyToDraw");
     }
 
     @Override
@@ -186,7 +184,7 @@ public class Renderer implements CardboardView.StereoRenderer {
         GLES20.glEnableVertexAttribArray(mPositionParam);
         GLES20.glEnableVertexAttribArray(mNormalParam);
         GLES20.glEnableVertexAttribArray(mColorParam);
-        checkGLError("mColorParam");
+        GLUtils.checkGLError("mColorParam");
 
         // Set the position of the light
         Matrix.multiplyMV(mLightPosInEyeSpace, 0, mView, 0, mLightPosInWorldSpace, 0);
@@ -245,7 +243,7 @@ public class Renderer implements CardboardView.StereoRenderer {
                     0, mCubeColors);
         }
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 36);
-        checkGLError("Drawing cube");
+        GLUtils.checkGLError("Drawing cube");
     }
 
     public void drawWall() {
@@ -278,7 +276,7 @@ public class Renderer implements CardboardView.StereoRenderer {
 
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
 
-        checkGLError("drawing wall");
+        GLUtils.checkGLError("drawing wall");
     }
 
     public void drawFloor(float[] perspective) {
@@ -302,7 +300,7 @@ public class Renderer implements CardboardView.StereoRenderer {
 
         GLES20.glDisable(GLES20.GL_BLEND);
 
-        checkGLError("drawing floor");
+        GLUtils.checkGLError("drawing floor");
     }
 
     @Override
@@ -342,7 +340,7 @@ public class Renderer implements CardboardView.StereoRenderer {
         Matrix.setIdentityM(mModelWall, 0);
         Matrix.translateM(mModelWall, 0, 0, 0, -16f);
 
-        checkGLError("onSurfaceCreated");
+        GLUtils.checkGLError("onSurfaceCreated");
     }
 
     private void initTextures() {

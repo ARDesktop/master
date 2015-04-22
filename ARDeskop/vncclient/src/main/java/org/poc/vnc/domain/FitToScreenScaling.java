@@ -5,6 +5,8 @@ package org.poc.vnc.domain;
 
 import android.widget.ImageView.ScaleType;
 
+import org.poc.vnc.R;
+
 /**
  * @author Michael A. MacDonald
  */
@@ -45,11 +47,11 @@ class FitToScreenScaling extends AbstractScaling {
 	/* (non-Javadoc)
 	 * @see android.androidVNC.AbstractScaling#setCanvasScaleType(android.androidVNC.VncCanvas)
 	 */
-	@Override
+	/*@Override
 	void setScaleTypeForActivity(VncCanvasActivity activity) {
 		super.setScaleTypeForActivity(activity);
 		activity.vncCanvas.absoluteXPosition = activity.vncCanvas.absoluteYPosition = 0;
 		activity.vncCanvas.scrollTo(0, 0);
-	}
+	}*/
 
 }

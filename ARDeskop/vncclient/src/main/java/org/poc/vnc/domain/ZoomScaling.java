@@ -6,6 +6,8 @@ package org.poc.vnc.domain;
 import android.graphics.Matrix;
 import android.widget.ImageView.ScaleType;
 
+import org.poc.vnc.R;
+
 /**
  * @author Michael A. MacDonald
  */
@@ -57,16 +59,16 @@ class ZoomScaling extends AbstractScaling {
 	 * Call after scaling and matrix have been changed to resolve scrolling
 	 * @param activity
 	 */
-	private void resolveZoom(VncCanvasActivity activity)
+	/*private void resolveZoom(VncCanvasActivity activity)
 	{
 		activity.vncCanvas.scrollToAbsolute();
 		activity.vncCanvas.pan(0,0);
-	}
+	}*/
 	
 	/* (non-Javadoc)
 	 * @see android.androidVNC.AbstractScaling#zoomIn(android.androidVNC.VncCanvasActivity)
 	 */
-	@Override
+	/*@Override
 	void zoomIn(VncCanvasActivity activity) {
 		resetMatrix();
 		standardizeScaling();
@@ -81,20 +83,20 @@ class ZoomScaling extends AbstractScaling {
 		//Log.v(TAG,String.format("before set matrix scrollx = %d scrolly = %d", activity.vncCanvas.getScrollX(), activity.vncCanvas.getScrollY()));
 		activity.vncCanvas.setImageMatrix(matrix);
 		resolveZoom(activity);
-	}
+	}*/
 
 	/* (non-Javadoc)
 	 * @see android.androidVNC.AbstractScaling#getScale()
 	 */
 	@Override
-	float getScale() {
+	public float getScale() {
 		return scaling;
 	}
 
 	/* (non-Javadoc)
 	 * @see android.androidVNC.AbstractScaling#zoomOut(android.androidVNC.VncCanvasActivity)
 	 */
-	@Override
+	/*@Override
 	void zoomOut(VncCanvasActivity activity) {
 		resetMatrix();
 		standardizeScaling();
@@ -110,12 +112,12 @@ class ZoomScaling extends AbstractScaling {
 		activity.vncCanvas.setImageMatrix(matrix);
 		//Log.v(TAG,String.format("after set matrix scrollx = %d scrolly = %d", activity.vncCanvas.getScrollX(), activity.vncCanvas.getScrollY()));
 		resolveZoom(activity);
-	}
+	}*/
 
 	/* (non-Javadoc)
 	 * @see android.androidVNC.AbstractScaling#adjust(android.androidVNC.VncCanvasActivity, float, float, float)
 	 */
-	@Override
+	/*@Override
 	void adjust(VncCanvasActivity activity, float scaleFactor, float fx,
 			float fy) {
 		float newScale = scaleFactor * scaling;
@@ -150,7 +152,7 @@ class ZoomScaling extends AbstractScaling {
 		activity.vncCanvas.setImageMatrix(matrix);
 		resolveZoom(activity);
 		activity.vncCanvas.pan((int)(newXPan - xPan), (int)(newYPan - yPan));
-	}
+	}*/
 
 	private void resetMatrix()
 	{
@@ -169,7 +171,7 @@ class ZoomScaling extends AbstractScaling {
 	/* (non-Javadoc)
 	 * @see android.androidVNC.AbstractScaling#setScaleTypeForActivity(android.androidVNC.VncCanvasActivity)
 	 */
-	@Override
+	/*@Override
 	void setScaleTypeForActivity(VncCanvasActivity activity) {
 		super.setScaleTypeForActivity(activity);
 		scaling = (float)1.0;
@@ -180,6 +182,6 @@ class ZoomScaling extends AbstractScaling {
 		activity.vncCanvas.setImageMatrix(matrix);
 		// Reset the pan position to (0,0)
 		resolveZoom(activity);
-	}
+	}*/
 
 }

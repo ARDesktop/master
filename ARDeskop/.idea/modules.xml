@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ARDeskop.iml" filepath="$PROJECT_DIR$/ARDeskop.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/remoteclient/remoteclient.iml" filepath="$PROJECT_DIR$/remoteclient/remoteclient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vncclient/vncclient.iml" filepath="$PROJECT_DIR$/vncclient/vncclient.iml" />
     </modules>
   </component>
 </project>

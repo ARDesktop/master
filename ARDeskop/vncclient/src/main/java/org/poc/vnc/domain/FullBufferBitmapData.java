@@ -12,11 +12,13 @@ import android.graphics.Rect;
 import android.util.Log;
 import android.widget.ImageView;
 
+import org.poc.vnc.VncCanvas;
+
 /**
  * @author Michael A. MacDonald
  *
  */
-class FullBufferBitmapData extends AbstractBitmapData {
+public class FullBufferBitmapData extends AbstractBitmapData {
 
 	int xoffset;
 	int yoffset;
@@ -74,7 +76,7 @@ class FullBufferBitmapData extends AbstractBitmapData {
 				}
 				*/
 			}
-			if(data.vncCanvas.connection.getUseLocalCursor())
+			/*if(data.vncCanvas.connection.getUseLocalCursor())
 			{
 				setCursorRect(data.vncCanvas.mouseX, data.vncCanvas.mouseY);
 				clipRect.set(cursorRect);
@@ -82,7 +84,7 @@ class FullBufferBitmapData extends AbstractBitmapData {
 				{
 					drawCursor(canvas);
 				}
-			}
+			}*/
 		}
 	}
 
@@ -110,7 +112,7 @@ class FullBufferBitmapData extends AbstractBitmapData {
 	 * @see android.androidVNC.AbstractBitmapData#copyRect(android.graphics.Rect, android.graphics.Rect, android.graphics.Paint)
 	 */
 	@Override
-	void copyRect(Rect src, Rect dest, Paint paint) {
+    public void copyRect(Rect src, Rect dest, Paint paint) {
 		// TODO copy rect working?
 		throw new RuntimeException( "copyrect Not implemented");
 	}
@@ -127,7 +129,7 @@ class FullBufferBitmapData extends AbstractBitmapData {
 	 * @see android.androidVNC.AbstractBitmapData#drawRect(int, int, int, int, android.graphics.Paint)
 	 */
 	@Override
-	void drawRect(int x, int y, int w, int h, Paint paint) {
+    public void drawRect(int x, int y, int w, int h, Paint paint) {
 		int color = paint.getColor();
 		int offset = offset(x,y);
 		if (w > 10)
@@ -153,7 +155,7 @@ class FullBufferBitmapData extends AbstractBitmapData {
 	 * @see android.androidVNC.AbstractBitmapData#offset(int, int)
 	 */
 	@Override
-	int offset(int x, int y) {
+    public int offset(int x, int y) {
 		return x + y * framebufferwidth;
 	}
 
@@ -170,7 +172,7 @@ class FullBufferBitmapData extends AbstractBitmapData {
 	 * @see android.androidVNC.AbstractBitmapData#syncScroll()
 	 */
 	@Override
-	void syncScroll() {
+    public void syncScroll() {
 		// Don't need to do anything here
 
 	}
@@ -179,7 +181,7 @@ class FullBufferBitmapData extends AbstractBitmapData {
 	 * @see android.androidVNC.AbstractBitmapData#updateBitmap(int, int, int, int)
 	 */
 	@Override
-	void updateBitmap(int x, int y, int w, int h) {
+    public void updateBitmap(int x, int y, int w, int h) {
 		// Don't need to do anything here
 
 	}
@@ -188,7 +190,7 @@ class FullBufferBitmapData extends AbstractBitmapData {
 	 * @see android.androidVNC.AbstractBitmapData#validDraw(int, int, int, int)
 	 */
 	@Override
-	boolean validDraw(int x, int y, int w, int h) {
+    public boolean validDraw(int x, int y, int w, int h) {
 		return true;
 	}
 
@@ -196,7 +198,7 @@ class FullBufferBitmapData extends AbstractBitmapData {
 	 * @see android.androidVNC.AbstractBitmapData#writeFullUpdateRequest(boolean)
 	 */
 	@Override
-	void writeFullUpdateRequest(boolean incremental) throws IOException {
+    public void writeFullUpdateRequest(boolean incremental) throws IOException {
 		rfb.writeFramebufferUpdateRequest(0, 0, framebufferwidth, framebufferheight, incremental);
 	}
 

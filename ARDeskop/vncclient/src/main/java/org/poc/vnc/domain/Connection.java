@@ -1,6 +1,6 @@
 package org.poc.vnc.domain;
 
-import org.poc.interfaces.IConnection;
+import org.poc.vnc.domain.IConnection;
 
 import java.io.Serializable;
 
